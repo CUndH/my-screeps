@@ -11,11 +11,12 @@ export const loop = errorMapper(() => {
   let minUpgraderNumber = 1;
   const upgraderNumber = _.sum(Game.creeps, (c) => c.memory.role == 'upgrader');
 
-  let minBuilderNumber = 6;
+  let minBuilderNumber = 15;
   const builderNumber = _.sum(Game.creeps, (c) => c.memory.role == 'builder');
 
   for (let name in Memory.creeps) {
     if (!Game.creeps[name]) {
+      delete Memory.creeps[name];
       if (harvesterNumber < minHavesterNumber) {
         Spawn.spawnCreep(Game.spawns['Spawn1'], [WORK, CARRY, MOVE], `havester_${Game.time}`, {
           memory: {role: 'harvester', working: false}
