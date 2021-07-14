@@ -5,7 +5,7 @@ import roleBuilder from './role.builder';
 import Spawn from './spawn';
 
 export const loop = errorMapper(() => {
-  let minHavesterNumber = 10;
+  let minHavesterNumber = 12;
   const harvesterNumber = _.sum(Game.creeps, (c) => c.memory.role == 'harvester');
 
   let minUpgraderNumber = 1;
