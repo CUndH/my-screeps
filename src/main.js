@@ -24,13 +24,11 @@ export const loop = errorMapper(() => {
       Spawn.spawnCreep(Game.spawns['Spawn1'], [WORK, CARRY, MOVE], `havester_${Game.time}`, {
         memory: {role: 'harvester', working: false}
       });
-    }
-    if (upgraderNumber < minUpgraderNumber) {
+    }else if (upgraderNumber < minUpgraderNumber) {
       Spawn.spawnCreep(Game.spawns['Spawn1'], [WORK, CARRY, MOVE], `upgrader_${Game.time}`, {
         memory: {role: 'upgrader', working: false}
       });
-    }
-    if (builderNumber < minBuilderNumber) {
+    }else if (builderNumber < minBuilderNumber) {
       Spawn.spawnCreep(Game.spawns['Spawn1'], [WORK, CARRY, MOVE], `builder_${Game.time}`, {
         memory: {role: 'builder', working: false}
       });
