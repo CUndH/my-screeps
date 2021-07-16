@@ -3,40 +3,26 @@ import roleHarvester from './role.harvester';
 import roleUpgrader from './role.upgrader';
 import roleBuilder from './role.builder';
 import Spawn from './spawn';
+import { minumMap } from '../constant/index';
 
 export const loop = errorMapper(() => {
-  let minHavesterNumber = 18;
-  const harvesterNumber = _.sum(Game.creeps, (c) => c.memory.role == 'harvester');
 
-  let minUpgraderNumber = 1;
-  const upgraderNumber = _.sum(Game.creeps, (c) => c.memory.role == 'upgrader');
-
-  let minBuilderNumber = 12;
-  const builderNumber = _.sum(Game.creeps, (c) => c.memory.role == 'builder');
-
-  let minWallRepairerNumber = 3;
-  const wallRepairerNumber = _.sum(Game.creeps, (c) => c.memory.role == 'repairer');
-
-  for (let name in Memory.creeps) {
-    if (!Game.creeps[name]) {
-      delete Memory.creeps[name];
-    }
-    if (harvesterNumber < minHavesterNumber) {
-      Spawn.spawnCreep(Game.spawns['Spawn1'], [WORK, CARRY, MOVE], `havester_${Game.time}`, {
-        memory: {role: 'harvester', working: false}
-      });
-    } else if (upgraderNumber < minUpgraderNumber) {
-      Spawn.spawnCreep(Game.spawns['Spawn1'], [WORK, CARRY, MOVE], `upgrader_${Game.time}`, {
-        memory: {role: 'upgrader', working: false}
-      });
-    } else if (builderNumber < minBuilderNumber) {
-      Spawn.spawnCreep(Game.spawns['Spawn1'], [WORK, CARRY, MOVE], `builder_${Game.time}`, {
-        memory: {role: 'builder', working: false}
-      });
-    } else if (wallRepairerNumber < minWallRepairerNumber) {
-      Spawn.spawnCreep(Game.spawns['Spawn1'], [WORK, CARRY, MOVE], `repairer_${Game.time}`, {
-        memory: {role: 'repairer', working: false}
-      });
+  for (let role in minumMap) {
+    const creepsNumber = _.sum(Game.creeps, (c) => c.memory.role == role);
+    for (let name in Memory.creeps) {
+      // creep 死亡后清除内存
+      if (!Game.creeps[name]) {
+        delete Memory.creeps[name];
+      }
+      // creep 低于限定值后重新创造相应角色
+      if (creepsNumber < minumMap[role]) {
+        Spawn.spawnCreep(Game.spawns['Spawn1'], [WORK, CARRY, MOVE], `${role}_${Game.time}`, {
+          memory: {
+            role,
+            working: false,
+          }
+        });
+      }
     }
   }
 
