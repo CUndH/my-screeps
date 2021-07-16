@@ -1,7 +1,5 @@
 import { errorMapper } from '../modules/errorMapper';
-import roleHarvester from './role.harvester';
-import roleUpgrader from './role.upgrader';
-import roleBuilder from './role.builder';
+import {roleHarvester, roleBuilder, roleUpgrader, roleWallRepairer} from './roles/index';
 import Spawn from './spawn';
 import { minumMap } from '../constant/index';
 
@@ -36,6 +34,9 @@ export const loop = errorMapper(() => {
     }
     if (creep.memory.role == 'builder') {
       roleBuilder(creep);
+    }
+    if (creep.memory.role == 'wallRepairer') {
+      roleWallRepairer(creep);
     }
   }
 });
