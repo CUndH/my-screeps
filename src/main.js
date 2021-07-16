@@ -5,16 +5,17 @@ import roleBuilder from './role.builder';
 import Spawn from './spawn';
 
 export const loop = errorMapper(() => {
-  let minHavesterNumber = 10;
+  let minHavesterNumber = 18;
   const harvesterNumber = _.sum(Game.creeps, (c) => c.memory.role == 'harvester');
 
   let minUpgraderNumber = 1;
   const upgraderNumber = _.sum(Game.creeps, (c) => c.memory.role == 'upgrader');
 
-  let minBuilderNumber = 10;
+  let minBuilderNumber = 12;
   const builderNumber = _.sum(Game.creeps, (c) => c.memory.role == 'builder');
 
-  console.log(JSON.stringify(Memory.creeps));
+  let minWallRepairerNumber = 3;
+  const wallRepairerNumber = _.sum(Game.creeps, (c) => c.memory.role == 'repairer');
 
   for (let name in Memory.creeps) {
     if (!Game.creeps[name]) {
@@ -24,13 +25,17 @@ export const loop = errorMapper(() => {
       Spawn.spawnCreep(Game.spawns['Spawn1'], [WORK, CARRY, MOVE], `havester_${Game.time}`, {
         memory: {role: 'harvester', working: false}
       });
-    }else if (upgraderNumber < minUpgraderNumber) {
+    } else if (upgraderNumber < minUpgraderNumber) {
       Spawn.spawnCreep(Game.spawns['Spawn1'], [WORK, CARRY, MOVE], `upgrader_${Game.time}`, {
         memory: {role: 'upgrader', working: false}
       });
-    }else if (builderNumber < minBuilderNumber) {
+    } else if (builderNumber < minBuilderNumber) {
       Spawn.spawnCreep(Game.spawns['Spawn1'], [WORK, CARRY, MOVE], `builder_${Game.time}`, {
         memory: {role: 'builder', working: false}
+      });
+    } else if (wallRepairerNumber < minWallRepairerNumber) {
+      Spawn.spawnCreep(Game.spawns['Spawn1'], [WORK, CARRY, MOVE], `repairer_${Game.time}`, {
+        memory: {role: 'repairer', working: false}
       });
     }
   }
