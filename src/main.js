@@ -7,6 +7,16 @@ export const loop = errorMapper(() => {
 
   for (let role in minumMap) {
     const creepsNumber = _.sum(Game.creeps, (c) => c.memory.role == role);
+    // 兼容极端情况，没有creep存活
+    console.log(JSON.stringify(Memory.creeps));
+    if (JSON.stringify(Memory.creeps) === '{}') {
+      Spawn.spawnCreep(Game.spawns['Spawn1'], [WORK, CARRY, MOVE], `harvester_${Game.time}`, {
+        memory: {
+          role: 'harvester',
+          working: false,
+        }
+      });
+    }
     for (let name in Memory.creeps) {
       // creep 死亡后清除内存
       if (!Game.creeps[name]) {
