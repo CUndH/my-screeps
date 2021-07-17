@@ -1,4 +1,4 @@
-import CreepWork from "./CreepWork";
+import CreepWork from "../CreepWork";
 
 const roleRepairer = (creep) => {
   const walls = creep.room.find(FIND_STRUCTURES, {
@@ -14,17 +14,19 @@ const roleRepairer = (creep) => {
     }
   }
 
-  if (target) {
+  if (creep.memory.working && target) {
+    creep.repair(target);
+  } else if (creep.memory.working && !target) {
+    CreepWork.upgrade(creep, creep.room.controller);
+  } else {
     if (creep.store[RESOURCE_ENERGY] < creep.store.getCapacity()) {
       let newTarget = creep.pos.findClosestByPath(FIND_STRUCTURES, {
         filter: (s) => s.structureType == STRUCTURE_EXTENSION || s.structureType == STRUCTURE_SPAWN
       })
       CreepWork.withDraw(creep, newTarget, RESOURCE_ENERGY);
     } else {
-      creep.repair(target);
+      creep.working = true;
     }
-  } else {
-    CreepWork.upgrade(creep, creep.room.controller);
   }
 }
 
