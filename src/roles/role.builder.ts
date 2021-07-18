@@ -1,6 +1,6 @@
 import CreepWork from "../CreepWork";
 
-const roleUpgrader = (creep) => {
+const roleUpgrader = (creep: Creep) => {
   if (creep.memory.working) {
     const constructionSite = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
     CreepWork.build(creep, constructionSite);

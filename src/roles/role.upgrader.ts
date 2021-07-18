@@ -1,6 +1,6 @@
 import CreepWork from "../CreepWork";
 
-const roleUpgrader = (creep) => {
+const roleUpgrader = (creep: Creep) => {
   if (creep.memory.working) {
     let target = creep.room.controller;
     CreepWork.upgrade(creep, target);

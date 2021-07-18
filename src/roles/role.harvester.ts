@@ -1,6 +1,6 @@
 import CreepWork from "../CreepWork";
 
-const roleHarvester = (creep) => {
+const roleHarvester = (creep: Creep) => {
   if (creep.memory.working) {
     let target = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
       filter: (s) => (s.structureType == STRUCTURE_SPAWN
