@@ -1,20 +1,19 @@
+import CreepWork from "../CreepWork";
+
 const roleUpgrader = (creep) => {
-  const constructionSite = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
-  if (creep.store[RESOURCE_ENERGY] < creep.store.getCapacity()) {
-    let target = creep.pos.findClosestByPath(FIND_MY_SPAWNS);
-    if (creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-      creep.moveTo(target);
-    }
+  if (creep.memory.working) {
+    const constructionSite = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
+    CreepWork.build(creep, constructionSite);
   } else {
-    if (constructionSite) {
-      if (creep.build(constructionSite) == ERR_NOT_IN_RANGE) {
-        creep.moveTo(constructionSite);
-      }
+    if (creep.store[RESOURCE_ENERGY] < creep.store.getCapacity()) {
+      let target = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
+        filter: (s) => (s.structureType == STRUCTURE_SPAWN
+                     || s.structureType == STRUCTURE_EXTENSION)
+                     && s.energy < s.energyCapacity
+      });
+      CreepWork.withDraw(creep, target, RESOURCE_ENERGY);
     } else {
-      let target = creep.room.controller;
-      if (creep.upgradeController(target) == ERR_NOT_IN_RANGE) {
-        creep.moveTo(target);
-      }
+      creep.memory.working = true;
     }
   }
 }
