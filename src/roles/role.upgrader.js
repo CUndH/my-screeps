@@ -1,13 +1,15 @@
+import CreepWork from "../CreepWork";
+
 const roleUpgrader = (creep) => {
-  if (creep.store[RESOURCE_ENERGY] < creep.store.getCapacity()) {
-    let target = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
-    if (creep.harvest(target) == ERR_NOT_IN_RANGE) {
-      creep.moveTo(target);
-    }
-  } else {
+  if (creep.memory.working) {
     let target = creep.room.controller;
-    if (creep.upgradeController(target) == ERR_NOT_IN_RANGE) {
-      creep.moveTo(target);
+    CreepWork.upgrade(creep, target);
+  } else {
+    if (creep.store[RESOURCE_ENERGY] < creep.store.getCapacity()) {
+      let target = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
+      CreepWork.harvest(creep, target);
+    } else {
+      creep.memory.working = true;
     }
   }
 }
