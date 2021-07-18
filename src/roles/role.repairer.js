@@ -15,9 +15,19 @@ const roleRepairer = (creep) => {
   }
 
   if (creep.memory.working && target) {
-    creep.repair(target);
+    if(creep.repair(target) == ERR_NOT_IN_RANGE) {
+      creep.moveTo(target);
+    }
+    if (creep.store[RESOURCE_ENERGY] == 0) {
+      // 能量存放完毕后退出工作状态
+      creep.memory.working = false;
+    }
   } else if (creep.memory.working && !target) {
     CreepWork.upgrade(creep, creep.room.controller);
+    if (creep.store[RESOURCE_ENERGY] == 0) {
+      // 能量存放完毕后退出工作状态
+      creep.memory.working = false;
+    }
   } else {
     if (creep.store[RESOURCE_ENERGY] < creep.store.getCapacity()) {
       let newTarget = creep.pos.findClosestByPath(FIND_STRUCTURES, {
@@ -25,7 +35,7 @@ const roleRepairer = (creep) => {
       })
       CreepWork.withDraw(creep, newTarget, RESOURCE_ENERGY);
     } else {
-      creep.working = true;
+      creep.memory.working = true;
     }
   }
 }
