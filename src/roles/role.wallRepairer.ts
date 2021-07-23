@@ -1,6 +1,6 @@
 import CreepWork from "../CreepWork";
 
-const roleRepairer = (creep: Creep) => {
+const roleWallRepairer = (creep: Creep) => {
   const walls = creep.room.find(FIND_STRUCTURES, {
     filter: { structureType: STRUCTURE_WALL },
   });
@@ -40,4 +40,4 @@ const roleRepairer = (creep: Creep) => {
   }
 }
 
-export default roleRepairer;
+export default roleWallRepairer;
