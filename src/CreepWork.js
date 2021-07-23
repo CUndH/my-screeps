@@ -28,4 +28,10 @@ export default class CreepWork {
       creep.moveTo(target);
     }
   }
+
+  static repair(creep, target) {
+    if(creep.repair(target) == ERR_NOT_IN_RANGE) {
+      creep.moveTo(target);
+    }
+  }
 }

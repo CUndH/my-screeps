@@ -1,18 +1,9 @@
 import CreepWork from "../CreepWork";
 
-const roleWallRepairer = (creep: Creep) => {
-  const walls = creep.room.find(FIND_STRUCTURES, {
-    filter: { structureType: STRUCTURE_WALL },
+const roleRepairer = (creep: Creep) => {
+  const target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+    filter: (s) => s.hits < s.hitsMax && s.structureType != STRUCTURE_WALL
   });
-
-  let target = null;
-
-  for (let wall of walls) {
-    if ((wall.hits / wall.hitsMax) < 0.3) {
-      target = wall;
-      break;
-    }
-  }
 
   if (creep.memory.working && target) {
     CreepWork.repair(creep, target);
@@ -38,4 +29,4 @@ const roleWallRepairer = (creep: Creep) => {
   }
 }
 
-export default roleWallRepairer;
+export default roleRepairer;
